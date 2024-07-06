@@ -232,20 +232,14 @@ void DrawHydraBrowser() {
     DrawSceneIndexSelector(selectedSceneIndexName, selectedInputName);
     DrawSceneIndexFilterSelector(selectedSceneIndexName, selectedFilter);
 
-    // TODO Splitter layout
-    // TODO use ImGuiChildFlags_Border| ImGuiChildFlags_ResizeX with more recent version of imgui
     ImGuiWindow *currentWindow = ImGui::GetCurrentWindow();
-    int height = currentWindow->Size[1] - 100;
     static float size1 = 0.f;
-    static float size2 = 0.f;
     size1 = currentWindow->Size[0] / 2;
-    size2 = currentWindow->Size[0] / 2;
-    // Splitter(true, 4.f, &size1, &size2, 20, 20);
-    ImGui::BeginChild("1", ImVec2(size1, height), true);
+    ImGui::BeginChild("1", ImVec2(size1, -1), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX);
     DrawSceneIndexTreeView(selectedFilter, selectedInputName, selectedPrimIndexPath);
     ImGui::EndChild();
     ImGui::SameLine();
-    ImGui::BeginChild("2", ImVec2(size2, height), true);
+    ImGui::BeginChild("2");
     DrawSceneIndexPrimParameters(selectedFilter, selectedPrimIndexPath);
     ImGui::EndChild();
 }
