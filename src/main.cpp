@@ -202,9 +202,13 @@ int main(int argc, char *const *argv) {
         }
         editor.RemoveCallbacks(window);
     }
-    ImGui::DestroyContext(hydraUIContext);
 
     // Shutdown imgui
+    ImGui::SetCurrentContext(hydraUIContext);
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui::DestroyContext(hydraUIContext);
+    
+    ImGui::SetCurrentContext(mainUIContext);
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
 
