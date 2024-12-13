@@ -27,7 +27,7 @@ ImagingSettings::ImagingSettings() {
     forceRefresh = false;
     enableLighting = true;
     enableSceneMaterials = false;
-    drawMode = UsdImagingGLDrawMode::DRAW_SHADED_SMOOTH;
+    drawMode = runtime::UsdImagingGLDrawMode::DRAW_SHADED_SMOOTH;
     highlight = true;
     gammaCorrectColors = false;
     colorCorrectionMode = TfToken("sRGB");
@@ -69,15 +69,15 @@ const GlfSimpleLightVector &ImagingSettings::GetLights() {
 }
 
 
-// We keep the currently selected AOV per engine here as there is it not really store in UsdImagingGLEngine.
+// We keep the currently selected AOV per engine here as there is it not really store in RuntimeEngine.
 // When setting a color aov, the engine adds multiple other aov to render, in short there is no easy way to know
 // which aov is rendered.
 // This is obviously not thread safe but supposed to work in the main rendering thread
 static std::map<TfToken, TfToken> aovSelection; // a vector might be faster
 
-static void SetAovSelection(UsdImagingGLEngine &renderer, TfToken aov) { aovSelection[renderer.GetCurrentRendererId()] = aov; }
+static void SetAovSelection(runtime::RuntimeEngine &renderer, TfToken aov) { aovSelection[renderer.GetCurrentRendererId()] = aov; }
 
-static TfToken GetAovSelection(UsdImagingGLEngine &renderer) {
+static TfToken GetAovSelection(runtime::RuntimeEngine &renderer) {
     auto aov = aovSelection.find(renderer.GetCurrentRendererId());
     if (aov == aovSelection.end()) {
         SetAovSelection(renderer, TfToken("color"));
@@ -87,26 +87,26 @@ static TfToken GetAovSelection(UsdImagingGLEngine &renderer) {
     }
 }
 
-void InitializeRendererAov(UsdImagingGLEngine &renderer) {
+void InitializeRendererAov(runtime::RuntimeEngine &renderer) {
     renderer.SetRendererAov(GetAovSelection(renderer));
 }
 
-void DrawImagingSettings(UsdImagingGLEngine &renderer, ImagingSettings &renderparams) {
+void DrawImagingSettings(runtime::RuntimeEngine &renderer, ImagingSettings &renderparams) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     // General render parameters
     ImGui::ColorEdit4("Background color", renderparams.clearColor.data());
 
     // TODO: check there isn't a function that already returns the strings for an enum
     // I have seen that in the USD code
-    static std::array<std::pair<UsdImagingGLDrawMode, const char *>, 8> UsdImagingGLDrawModeStrings = {
-        std::make_pair(UsdImagingGLDrawMode::DRAW_POINTS, "DRAW_POINTS"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_WIREFRAME, "DRAW_WIREFRAME"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_WIREFRAME_ON_SURFACE, "DRAW_WIREFRAME_ON_SURFACE"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_SHADED_FLAT, "DRAW_SHADED_FLAT"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_SHADED_SMOOTH, "DRAW_SHADED_SMOOTH"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_GEOM_ONLY, "DRAW_GEOM_ONLY"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_GEOM_FLAT, "DRAW_GEOM_FLAT"),
-        std::make_pair(UsdImagingGLDrawMode::DRAW_GEOM_SMOOTH, "DRAW_GEOM_SMOOTH")};
+    static std::array<std::pair<runtime::UsdImagingGLDrawMode, const char *>, 8> UsdImagingGLDrawModeStrings = {
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_POINTS, "DRAW_POINTS"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_WIREFRAME, "DRAW_WIREFRAME"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_WIREFRAME_ON_SURFACE, "DRAW_WIREFRAME_ON_SURFACE"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_SHADED_FLAT, "DRAW_SHADED_FLAT"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_SHADED_SMOOTH, "DRAW_SHADED_SMOOTH"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_GEOM_ONLY, "DRAW_GEOM_ONLY"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_GEOM_FLAT, "DRAW_GEOM_FLAT"),
+        std::make_pair(runtime::UsdImagingGLDrawMode::DRAW_GEOM_SMOOTH, "DRAW_GEOM_SMOOTH")};
     // Look for the current on
     auto currentdrawmode = UsdImagingGLDrawModeStrings[0];
     for (const auto &mode : UsdImagingGLDrawModeStrings) {
@@ -146,7 +146,7 @@ void DrawImagingSettings(UsdImagingGLEngine &renderer, ImagingSettings &renderpa
     ImGui::Checkbox("Show gizmos", &renderparams.showGizmos);
 }
 
-void DrawRendererSelectionCombo(UsdImagingGLEngine &renderer) {
+void DrawRendererSelectionCombo(runtime::RuntimeEngine &renderer) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     const auto currentPlugin = renderer.GetCurrentRendererId();
     std::string pluginName = renderer.GetRendererDisplayName(currentPlugin);
@@ -156,7 +156,7 @@ void DrawRendererSelectionCombo(UsdImagingGLEngine &renderer) {
     }
 }
 
-void DrawRendererSelectionList(UsdImagingGLEngine &renderer) {
+void DrawRendererSelectionList(runtime::RuntimeEngine &renderer) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     const auto currentPlugin = renderer.GetCurrentRendererId();
     auto plugins = renderer.GetRendererPlugins();
@@ -179,7 +179,7 @@ void DrawRendererSelectionList(UsdImagingGLEngine &renderer) {
 
 }
 
-void DrawRendererControls(UsdImagingGLEngine &renderer) {
+void DrawRendererControls(runtime::RuntimeEngine &renderer) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     if (renderer.IsPauseRendererSupported()) {
         ImGui::Separator();
@@ -202,7 +202,7 @@ void DrawRendererControls(UsdImagingGLEngine &renderer) {
     }
 }
 
-void DrawRendererCommands(UsdImagingGLEngine &renderer) {
+void DrawRendererCommands(runtime::RuntimeEngine &renderer) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     if (ImGui::BeginMenu("Renderer Commands")) {
         HdCommandDescriptors commands = renderer.GetRendererCommandDescriptors();
@@ -218,7 +218,7 @@ void DrawRendererCommands(UsdImagingGLEngine &renderer) {
 }
 
 
-void DrawRendererSettings(UsdImagingGLEngine &renderer, ImagingSettings &renderparams) {
+void DrawRendererSettings(runtime::RuntimeEngine &renderer, ImagingSettings &renderparams) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     // Renderer settings
     for (auto setting : renderer.GetRendererSettingsList()) {
@@ -232,7 +232,7 @@ void DrawRendererSettings(UsdImagingGLEngine &renderer, ImagingSettings &renderp
     }
 }
 
-void DrawColorCorrection(UsdImagingGLEngine &renderer, ImagingSettings &renderparams) {
+void DrawColorCorrection(runtime::RuntimeEngine &renderer, ImagingSettings &renderparams) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     if (renderer.IsColorCorrectionCapable() && GetAovSelection(renderer) == TfToken("color")) {
         ImGui::Separator();
@@ -254,7 +254,7 @@ void DrawColorCorrection(UsdImagingGLEngine &renderer, ImagingSettings &renderpa
     }
 }
 
-void DrawAovSettings(UsdImagingGLEngine &renderer) {
+void DrawAovSettings(runtime::RuntimeEngine &renderer) {
     ScopedStyleColor defaultStyle(DefaultColorStyle);
     TfToken newSelection;
     const TfToken selectedAov = GetAovSelection(renderer);

@@ -553,7 +553,7 @@ void Viewport::Update() {
         if (whichRenderer == _renderers.end()) {
             firstTimeStageLoaded = true;
             SdfPathVector excludedPaths;
-            _renderer = new UsdImagingGLEngine(GetCurrentStage()->GetPseudoRoot().GetPath(), excludedPaths);
+            _renderer = new runtime::RuntimeEngine(GetCurrentStage()->GetPseudoRoot().GetPath(), excludedPaths);
             _renderers[GetCurrentStage()] = _renderer;
             _cameraManipulator.SetZIsUp(UsdGeomGetStageUpAxis(GetCurrentStage()) == "Z");
             _grid.SetZIsUp(UsdGeomGetStageUpAxis(GetCurrentStage()) == "Z");

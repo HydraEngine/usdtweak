@@ -18,7 +18,7 @@
 #include "ViewportCameras.h"
 #include <pxr/imaging/glf/drawTarget.h>
 #include <pxr/usd/usd/stage.h>
-#include <pxr/usdImaging/usdImagingGL/engine.h>
+#include "runtime/engine.h"
 
 #include <ImagingSettings.h>
 
@@ -159,8 +159,8 @@ class Viewport final {
 
     // Renderer
     GLuint _textureId = 0;
-    std::map<UsdStageRefPtr, UsdImagingGLEngine *> _renderers;
-    UsdImagingGLEngine *_renderer = nullptr;
+    std::map<UsdStageRefPtr, runtime::RuntimeEngine *> _renderers;
+    runtime::RuntimeEngine *_renderer = nullptr;
     ImagingSettings _imagingSettings;
     GlfDrawTargetRefPtr _drawTarget;
 

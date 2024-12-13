@@ -63,17 +63,17 @@ namespace runtime {
 
 using UsdStageWeakPtr = pxr::TfWeakPtr<class PXR_INTERNAL_NS::UsdStage>;
 
-namespace UsdImagingGLEngine_Impl {
+namespace RuntimeEngine_Impl {
 using _AppSceneIndicesSharedPtr = std::shared_ptr<struct _AppSceneIndices>;
 }
 
-/// \class UsdImagingGLEngine
+/// \class RuntimeEngine
 ///
-/// The UsdImagingGLEngine is the main entry point API for rendering USD scenes.
+/// The RuntimeEngine is the main entry point API for rendering USD scenes.
 ///
-class UsdImagingGLEngine {
+class RuntimeEngine {
 public:
-    /// Parameters to construct UsdImagingGLEngine.
+    /// Parameters to construct RuntimeEngine.
     struct Parameters {
         pxr::SdfPath rootPath = pxr::SdfPath::AbsoluteRootPath();
         pxr::SdfPathVector excludedPaths;
@@ -81,7 +81,7 @@ public:
         pxr::SdfPath sceneDelegateID = pxr::SdfPath::AbsoluteRootPath();
         /// An HdDriver, containing the Hgi of your choice, can be optionally passed
         /// in during construction. This can be helpful if your application creates
-        /// multiple UsdImagingGLEngine's that wish to use the same HdDriver / Hgi.
+        /// multiple RuntimeEngine's that wish to use the same HdDriver / Hgi.
         pxr::HdDriver driver;
         /// The \p rendererPluginId argument indicates the renderer plugin that
         /// Hydra should use. If the empty token is passed in, a default renderer
@@ -105,23 +105,23 @@ public:
     // ---------------------------------------------------------------------
 
     USDIMAGINGGL_API
-    UsdImagingGLEngine(const Parameters& params);
+    RuntimeEngine(const Parameters& params);
 
     /// An HdDriver, containing the Hgi of your choice, can be optionally passed
     /// in during construction. This can be helpful if you application creates
-    /// multiple UsdImagingGLEngine that wish to use the same HdDriver / Hgi.
+    /// multiple RuntimeEngine that wish to use the same HdDriver / Hgi.
     /// The \p rendererPluginId argument indicates the renderer plugin that
     /// Hyrda should use. If the empty token is passed in, a default renderer
     /// plugin will be chosen depending on the value of \p gpuEnabled.
     /// The \p gpuEnabled argument determines if this instance will allow Hydra
     /// to use the GPU to produce images.
     USDIMAGINGGL_API
-    UsdImagingGLEngine(const pxr::HdDriver& driver = pxr::HdDriver(),
+    RuntimeEngine(const pxr::HdDriver& driver = pxr::HdDriver(),
                        const pxr::TfToken& rendererPluginId = pxr::TfToken(),
                        bool gpuEnabled = true);
 
     USDIMAGINGGL_API
-    UsdImagingGLEngine(const pxr::SdfPath& rootPath,
+    RuntimeEngine(const pxr::SdfPath& rootPath,
                        const pxr::SdfPathVector& excludedPaths,
                        const pxr::SdfPathVector& invisedPaths = pxr::SdfPathVector(),
                        const pxr::SdfPath& sceneDelegateID = pxr::SdfPath::AbsoluteRootPath(),
@@ -132,11 +132,11 @@ public:
                        bool allowAsynchronousSceneProcessing = false);
 
     // Disallow copies
-    UsdImagingGLEngine(const UsdImagingGLEngine&) = delete;
-    UsdImagingGLEngine& operator=(const UsdImagingGLEngine&) = delete;
+    RuntimeEngine(const RuntimeEngine&) = delete;
+    RuntimeEngine& operator=(const RuntimeEngine&) = delete;
 
     USDIMAGINGGL_API
-    ~UsdImagingGLEngine();
+    ~RuntimeEngine();
 
     /// @}
 
@@ -612,7 +612,7 @@ public:
     // ---------------------------------------------------------------------
 
     /// If \p allowAsynchronousSceneProcessing is true within the Parameters
-    /// provided to the UsdImagingGLEngine constructor, an application can
+    /// provided to the RuntimeEngine constructor, an application can
     /// periodically call this from the main thread.
     ///
     /// A return value of true indicates that the scene has changed and the
@@ -753,7 +753,7 @@ private:
 
     pxr::HdSceneIndexBaseRefPtr _AppendOverridesSceneIndices(const pxr::HdSceneIndexBaseRefPtr& inputScene);
 
-    UsdImagingGLEngine_Impl::_AppSceneIndicesSharedPtr _appSceneIndices;
+    RuntimeEngine_Impl::_AppSceneIndicesSharedPtr _appSceneIndices;
 
     void _DestroyHydraObjects();
 

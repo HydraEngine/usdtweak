@@ -1,13 +1,12 @@
 #pragma once
-#include <pxr/usdImaging/usdImagingGL/engine.h>
-#include <pxr/usdImaging/usdImagingGL/renderParams.h>
+#include "runtime/engine.h"
+#include "runtime/renderParams.h"
 #include <pxr/imaging/glf/simpleLight.h>
 #include <pxr/usd/usdGeom/camera.h>
 
 PXR_NAMESPACE_USING_DIRECTIVE
 
-struct ImagingSettings : UsdImagingGLRenderParams {
-
+struct ImagingSettings : runtime::UsdImagingGLRenderParams {
     ImagingSettings();
 
     void SetLightPositionFromCamera(const GfCamera &);
@@ -15,10 +14,10 @@ struct ImagingSettings : UsdImagingGLRenderParams {
     // Defaults GL lights and materials
     bool enableCameraLight;
     const GlfSimpleLightVector &GetLights();
-    
+
     GlfSimpleMaterial _material;
     GfVec4f _ambient;
-    
+
     // Viewport
     bool showGrid;
     bool showGizmos;
@@ -30,15 +29,15 @@ private:
 };
 
 /// We keep track of the selected AOV in the UI, unfortunately the selected AOV is not awvailable in
-/// UsdImagingGLEngine, so we need the initialize the UI data with this function
-void InitializeRendererAov(UsdImagingGLEngine&);
+/// RuntimeEngine, so we need the initialize the UI data with this function
+void InitializeRendererAov(runtime::RuntimeEngine &);
 
 ///
-void DrawRendererSelectionCombo(UsdImagingGLEngine &);
-void DrawRendererSelectionList(UsdImagingGLEngine &);
-void DrawRendererControls(UsdImagingGLEngine &);
-void DrawRendererCommands(UsdImagingGLEngine &);
-void DrawRendererSettings(UsdImagingGLEngine &, ImagingSettings &);
-void DrawImagingSettings(UsdImagingGLEngine &, ImagingSettings &);
-void DrawAovSettings(UsdImagingGLEngine &);
-void DrawColorCorrection(UsdImagingGLEngine &, ImagingSettings &);
+void DrawRendererSelectionCombo(runtime::RuntimeEngine &);
+void DrawRendererSelectionList(runtime::RuntimeEngine &);
+void DrawRendererControls(runtime::RuntimeEngine &);
+void DrawRendererCommands(runtime::RuntimeEngine &);
+void DrawRendererSettings(runtime::RuntimeEngine &, ImagingSettings &);
+void DrawImagingSettings(runtime::RuntimeEngine &, ImagingSettings &);
+void DrawAovSettings(runtime::RuntimeEngine &);
+void DrawColorCorrection(runtime::RuntimeEngine &, ImagingSettings &);

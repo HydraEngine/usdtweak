@@ -44,7 +44,7 @@ enum class UsdImagingGLCullStyle {
 
 /// \class UsdImagingGLRenderParams
 ///
-/// Used as an arguments class for various methods in UsdImagingGLEngine.
+/// Used as an arguments class for various methods in RuntimeEngine.
 ///
 class UsdImagingGLRenderParams {
 public:
