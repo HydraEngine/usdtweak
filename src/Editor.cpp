@@ -1045,6 +1045,7 @@ void Editor::Draw() {
 
     if (_settings._syncPhysics) {
         GetViewport().SyncFabric();
+        _settings._syncPhysics = false;
     }
     
     DrawCurrentModal();
