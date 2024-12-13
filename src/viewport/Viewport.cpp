@@ -606,6 +606,14 @@ void Viewport::Update() {
     }
 }
 
+void Viewport::SyncFabric() {
+    _renderer->SyncFabric();
+}
+
+void Viewport::UnSyncFabric() {
+    _renderer->UnSyncFabric();
+}
+
 bool Viewport::TestIntersection(GfVec2d clickedPoint, SdfPath &outHitPrimPath, SdfPath &outHitInstancerPath,
                                 int &outHitInstanceIndex) {
 

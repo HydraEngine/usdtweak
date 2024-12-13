@@ -817,6 +817,10 @@ void Editor::DrawMainMenuBar() {
             ImGui::MenuItem(LauncherBarWindowTitle, nullptr, &_settings._showLauncherBar);
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Play")) {
+            ImGui::MenuItem("Play Physics", nullptr, &_settings._syncPhysics);
+            ImGui::EndMenu();
+        }
         if (ImGui::BeginMenu("Help")) {
             if (ImGui::MenuItem("About")) {
                 DrawModalDialog<AboutModalDialog>(*this);
@@ -1037,6 +1041,10 @@ void Editor::Draw() {
         ImGui::Begin(HydraBrowserWindowTitle, &_settings._showHydraBrowser);
         DrawHydraBrowser();
         ImGui::End();
+    }
+
+    if (_settings._syncPhysics) {
+        GetViewport().SyncFabric();
     }
     
     DrawCurrentModal();

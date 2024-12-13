@@ -39,6 +39,8 @@ class Viewport final {
 
     /// Draw the full viewport widget
     void Draw();
+    void SyncFabric();
+    void UnSyncFabric();
 
     /// Returns the time code of this viewport
     UsdTimeCode GetCurrentTimeCode() const { return _imagingSettings.frame; }
