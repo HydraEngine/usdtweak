@@ -39,7 +39,7 @@ public:
     /// plugin will be chosen depending on the value of \p gpuEnabled.
     /// The \p gpuEnabled argument determines if the UsdAppUtilsFrameRecorder
     /// instance will allow Hydra to use the GPU to produce images.
-    USDAPPUTILS_API
+
     UsdAppUtilsFrameRecorder(const pxr::TfToken& rendererPluginId = pxr::TfToken(), bool gpuEnabled = true);
 
     /// Gets the ID of the Hydra renderer plugin that will be used for
@@ -64,13 +64,13 @@ public:
     /// \note If there is a render settings prim designated by the
     /// render pass prim via renderSource, it must also be set
     /// with SetActiveRenderSettingsPrimPath().
-    USDAPPUTILS_API
+
     void SetActiveRenderPassPrimPath(pxr::SdfPath const& path);
 
     /// Sets the path to the render settings prim to use.
     ///
     /// \see SetActiveRenderPassPrimPath()
-    USDAPPUTILS_API
+
     void SetActiveRenderSettingsPrimPath(pxr::SdfPath const& path);
 
     /// Sets the width of the recorded image.
@@ -94,21 +94,18 @@ public:
     /// Sets the color correction mode to be used for recording.
     ///
     /// By default, color correction is disabled.
-    USDAPPUTILS_API
     void SetColorCorrectionMode(const pxr::TfToken& colorCorrectionMode);
 
     /// Turns the built-in camera light on or off.
     ///
     /// When on, this will add a light at the camera's origin.
     /// This is sometimes called a "headlight".
-    USDAPPUTILS_API
     void SetCameraLightEnabled(bool cameraLightEnabled);
 
     /// Sets the camera visibility of dome lights.
     ///
     /// When on, dome light textures will be drawn to the background as if
     /// mapped onto a sphere infinitely far away.
-    USDAPPUTILS_API
     void SetDomeLightVisibility(bool domeLightsVisible);
 
     /// Sets the UsdGeomImageable purposes to be used for rendering
@@ -117,7 +114,6 @@ public:
     /// we will also include UsdGeomTokens->proxy.  Use this method
     /// to explicitly enumerate an alternate set of purposes to be
     /// included along with "default".
-    USDAPPUTILS_API
     void SetIncludedPurposes(const pxr::TfTokenVector& purposes);
 
     /// Records an image and writes the result to \p outputImagePath.
@@ -136,7 +132,6 @@ public:
     ///
     /// Returns true if the image was generated and written successfully, or
     /// false otherwise.
-    USDAPPUTILS_API
     bool Record(const pxr::UsdStagePtr& stage,
                 const pxr::UsdGeomCamera& usdCamera,
                 const pxr::UsdTimeCode timeCode,

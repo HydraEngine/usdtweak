@@ -104,7 +104,6 @@ public:
     /// @{
     // ---------------------------------------------------------------------
 
-    USDIMAGINGGL_API
     RuntimeEngine(const Parameters& params);
 
     /// An HdDriver, containing the Hgi of your choice, can be optionally passed
@@ -115,27 +114,24 @@ public:
     /// plugin will be chosen depending on the value of \p gpuEnabled.
     /// The \p gpuEnabled argument determines if this instance will allow Hydra
     /// to use the GPU to produce images.
-    USDIMAGINGGL_API
     RuntimeEngine(const pxr::HdDriver& driver = pxr::HdDriver(),
-                       const pxr::TfToken& rendererPluginId = pxr::TfToken(),
-                       bool gpuEnabled = true);
+                  const pxr::TfToken& rendererPluginId = pxr::TfToken(),
+                  bool gpuEnabled = true);
 
-    USDIMAGINGGL_API
     RuntimeEngine(const pxr::SdfPath& rootPath,
-                       const pxr::SdfPathVector& excludedPaths,
-                       const pxr::SdfPathVector& invisedPaths = pxr::SdfPathVector(),
-                       const pxr::SdfPath& sceneDelegateID = pxr::SdfPath::AbsoluteRootPath(),
-                       const pxr::HdDriver& driver = pxr::HdDriver(),
-                       const pxr::TfToken& rendererPluginId = pxr::TfToken(),
-                       bool gpuEnabled = true,
-                       bool displayUnloadedPrimsWithBounds = false,
-                       bool allowAsynchronousSceneProcessing = false);
+                  const pxr::SdfPathVector& excludedPaths,
+                  const pxr::SdfPathVector& invisedPaths = pxr::SdfPathVector(),
+                  const pxr::SdfPath& sceneDelegateID = pxr::SdfPath::AbsoluteRootPath(),
+                  const pxr::HdDriver& driver = pxr::HdDriver(),
+                  const pxr::TfToken& rendererPluginId = pxr::TfToken(),
+                  bool gpuEnabled = true,
+                  bool displayUnloadedPrimsWithBounds = false,
+                  bool allowAsynchronousSceneProcessing = false);
 
     // Disallow copies
     RuntimeEngine(const RuntimeEngine&) = delete;
     RuntimeEngine& operator=(const RuntimeEngine&) = delete;
 
-    USDIMAGINGGL_API
     ~RuntimeEngine();
 
     /// @}
@@ -151,18 +147,15 @@ public:
     void UnSyncFabric();
 
     /// Support for batched drawing
-    USDIMAGINGGL_API
     void PrepareBatch(const pxr::UsdPrim& root, const UsdImagingGLRenderParams& params);
-    USDIMAGINGGL_API
+
     void RenderBatch(const pxr::SdfPathVector& paths, const UsdImagingGLRenderParams& params);
 
     /// Entry point for kicking off a render
-    USDIMAGINGGL_API
     void Render(const pxr::UsdPrim& root, const UsdImagingGLRenderParams& params);
 
     /// Returns true if the resulting image is fully converged.
     /// (otherwise, caller may need to call Render() again to refine the result)
-    USDIMAGINGGL_API
     bool IsConverged() const;
 
     /// @}
@@ -173,11 +166,9 @@ public:
     // ---------------------------------------------------------------------
 
     /// Sets the root transform.
-    USDIMAGINGGL_API
     void SetRootTransform(pxr::GfMatrix4d const& xf);
 
     /// Sets the root visibility.
-    USDIMAGINGGL_API
     void SetRootVisibility(bool isVisible);
 
     /// @}
@@ -189,13 +180,11 @@ public:
 
     /// Scene camera API
     /// Set the scene camera path to use for rendering.
-    USDIMAGINGGL_API
     void SetCameraPath(pxr::SdfPath const& id);
 
     /// Determines how the filmback of the camera is mapped into
     /// the pixels of the render buffer and what pixels of the render
     /// buffer will be rendered into.
-    USDIMAGINGGL_API
     void SetFraming(pxr::CameraUtilFraming const& framing);
 
     /// Specifies whether to force a window policy when conforming
@@ -207,13 +196,11 @@ public:
     ///
     /// Note: std::pair<bool, ...> is used instead of std::optional<...>
     /// because the latter is only available in C++17 or later.
-    USDIMAGINGGL_API
     void SetOverrideWindowPolicy(const std::optional<pxr::CameraUtilConformWindowPolicy>& policy);
 
     /// Set the size of the render buffers baking the AOVs.
     /// GUI applications should set this to the size of the window.
     ///
-    USDIMAGINGGL_API
     void SetRenderBufferSize(pxr::GfVec2i const& size);
 
     /// Set the viewport to use for rendering as (x,y,w,h), where (x,y)
@@ -221,20 +208,17 @@ public:
     /// is the width and height of the viewport in pixels.
     ///
     /// \deprecated Use SetFraming and SetRenderBufferSize instead.
-    USDIMAGINGGL_API
     void SetRenderViewport(pxr::GfVec4d const& viewport);
 
     /// Set the window policy to use.
     /// XXX: This is currently used for scene cameras set via SetCameraPath.
     /// See comment in SetCameraState for the free cam.
-    USDIMAGINGGL_API
     void SetWindowPolicy(pxr::CameraUtilConformWindowPolicy policy);
 
     /// Free camera API
     /// Set camera framing state directly (without pointing to a camera on the
     /// USD stage). The projection matrix is expected to be pre-adjusted for the
     /// window policy.
-    USDIMAGINGGL_API
     void SetCameraState(const pxr::GfMatrix4d& viewMatrix, const pxr::GfMatrix4d& projectionMatrix);
 
     /// @}
@@ -245,14 +229,12 @@ public:
     // ---------------------------------------------------------------------
 
     /// Copy lighting state from another lighting context.
-    USDIMAGINGGL_API
     void SetLightingState(pxr::GlfSimpleLightingContextPtr const& src);
 
     /// Set lighting state
     /// Derived classes should ensure that passing an empty lights
     /// vector disables lighting.
     /// \param lights is the set of lights to use, or empty to disable lighting.
-    USDIMAGINGGL_API
     void SetLightingState(pxr::GlfSimpleLightVector const& lights,
                           pxr::GlfSimpleMaterial const& material,
                           pxr::GfVec4f const& sceneAmbient);
@@ -267,22 +249,18 @@ public:
     /// Sets (replaces) the list of prim paths that should be included in
     /// selection highlighting. These paths may include root paths which will
     /// be expanded internally.
-    USDIMAGINGGL_API
     void SetSelected(pxr::SdfPathVector const& paths);
 
     /// Clear the list of prim paths that should be included in selection
     /// highlighting.
-    USDIMAGINGGL_API
     void ClearSelected();
 
     /// Add a path with instanceIndex to the list of prim paths that should be
     /// included in selection highlighting. UsdImagingDelegate::ALL_INSTANCES
     /// can be used for highlighting all instances if path is an instancer.
-    USDIMAGINGGL_API
     void AddSelected(pxr::SdfPath const& path, int instanceIndex);
 
     /// Sets the selection highlighting color.
-    USDIMAGINGGL_API
     void SetSelectionColor(pxr::GfVec4f const& color);
 
     /// @}
@@ -311,17 +289,16 @@ public:
     ///
     /// \deprecated Please use the override of TestIntersection that takes
     /// PickParams and returns an IntersectionResultVector instead!
-    USDIMAGINGGL_API
     bool TestIntersection(const pxr::GfMatrix4d& viewMatrix,
                           const pxr::GfMatrix4d& projectionMatrix,
                           const pxr::UsdPrim& root,
                           const UsdImagingGLRenderParams& params,
                           pxr::GfVec3d* outHitPoint,
                           pxr::GfVec3d* outHitNormal,
-                          pxr::SdfPath* outHitPrimPath = NULL,
-                          pxr::SdfPath* outHitInstancerPath = NULL,
-                          int* outHitInstanceIndex = NULL,
-                          pxr::HdInstancerContext* outInstancerContext = NULL);
+                          pxr::SdfPath* outHitPrimPath = nullptr,
+                          pxr::SdfPath* outHitInstancerPath = nullptr,
+                          int* outHitInstanceIndex = nullptr,
+                          pxr::HdInstancerContext* outInstancerContext = nullptr);
 
     // Pick result
     struct IntersectionResult {
@@ -359,7 +336,6 @@ public:
     /// \p hitPrimPath will point to the gprim selected by the pick.
     /// \p hitInstancerPath will point to the point instancer (if applicable) of each gprim.
     ///
-    USDIMAGINGGL_API
     bool TestIntersection(const PickParams& pickParams,
                           const pxr::GfMatrix4d& viewMatrix,
                           const pxr::GfMatrix4d& projectionMatrix,
@@ -369,13 +345,12 @@ public:
 
     /// Decodes a pick result given hydra prim ID/instance ID (like you'd get
     /// from an ID render).
-    USDIMAGINGGL_API
     bool DecodeIntersection(unsigned char const primIdColor[4],
                             unsigned char const instanceIdColor[4],
-                            pxr::SdfPath* outHitPrimPath = NULL,
-                            pxr::SdfPath* outHitInstancerPath = NULL,
-                            int* outHitInstanceIndex = NULL,
-                            pxr::HdInstancerContext* outInstancerContext = NULL);
+                            pxr::SdfPath* outHitPrimPath = nullptr,
+                            pxr::SdfPath* outHitInstancerPath = nullptr,
+                            int* outHitInstanceIndex = nullptr,
+                            pxr::HdInstancerContext* outInstancerContext = nullptr);
 
     /// @}
 
@@ -385,24 +360,19 @@ public:
     // ---------------------------------------------------------------------
 
     /// Return the vector of available render-graph delegate plugins.
-    USDIMAGINGGL_API
     static pxr::TfTokenVector GetRendererPlugins();
 
     /// Return the user-friendly description of a renderer plugin.
-    USDIMAGINGGL_API
     static std::string GetRendererDisplayName(pxr::TfToken const& id);
 
     /// Return if the GPU is enabled and can be used for any rendering tasks.
-    USDIMAGINGGL_API
     bool GetGPUEnabled() const;
 
     /// Return the id of the currently used renderer plugin.
-    USDIMAGINGGL_API
     pxr::TfToken GetCurrentRendererId() const;
 
     /// Set the current render-graph delegate to \p id.
     /// the plugin will be loaded if it's not yet.
-    USDIMAGINGGL_API
     bool SetRendererPlugin(pxr::TfToken const& id);
 
     /// @}
@@ -413,19 +383,15 @@ public:
     // ---------------------------------------------------------------------
 
     /// Return the vector of available renderer AOV settings.
-    USDIMAGINGGL_API
     pxr::TfTokenVector GetRendererAovs() const;
 
     /// Set the current renderer AOV to \p id.
-    USDIMAGINGGL_API
     bool SetRendererAov(pxr::TfToken const& id);
 
     /// Returns an AOV texture handle for the given token.
-    USDIMAGINGGL_API
     pxr::HgiTextureHandle GetAovTexture(pxr::TfToken const& name) const;
 
     /// Returns the AOV render buffer for the given token.
-    USDIMAGINGGL_API
     pxr::HdRenderBuffer* GetAovRenderBuffer(pxr::TfToken const& name) const;
 
     // ---------------------------------------------------------------------
@@ -434,15 +400,12 @@ public:
     // ---------------------------------------------------------------------
 
     /// Returns the list of renderer settings.
-    USDIMAGINGGL_API
     UsdImagingGLRendererSettingsList GetRendererSettingsList() const;
 
     /// Gets a renderer setting's current value.
-    USDIMAGINGGL_API
     pxr::VtValue GetRendererSetting(pxr::TfToken const& id) const;
 
     /// Sets a renderer setting's value.
-    USDIMAGINGGL_API
     void SetRendererSetting(pxr::TfToken const& id, pxr::VtValue const& value);
 
     /// @}
@@ -454,15 +417,12 @@ public:
     // ---------------------------------------------------------------------
 
     /// Set active render pass prim to use to drive rendering.
-    USDIMAGINGGL_API
     void SetActiveRenderPassPrimPath(pxr::SdfPath const&);
 
     /// Set active render settings prim to use to drive rendering.
-    USDIMAGINGGL_API
     void SetActiveRenderSettingsPrimPath(pxr::SdfPath const&);
 
     /// Utility method to query available render settings prims.
-    USDIMAGINGGL_API
     static pxr::SdfPathVector GetAvailableRenderSettingsPrimPaths(pxr::UsdPrim const& root);
 
     /// @}
@@ -475,7 +435,6 @@ public:
     /// Enable / disable presenting the render to bound framebuffer.
     /// An application may choose to manage the AOVs that are rendered into
     /// itself and skip the engine's presentation.
-    USDIMAGINGGL_API
     void SetEnablePresentation(bool enabled);
 
     /// The destination API (e.g., OpenGL, see hgiInterop for details) and
@@ -483,7 +442,6 @@ public:
     /// is a VtValue that encoding a framebuffer in a destination API
     /// specific way.
     /// E.g., a uint32_t (aka GLuint) for framebuffer object for OpenGL.
-    USDIMAGINGGL_API
     void SetPresentationOutput(pxr::TfToken const& api, pxr::VtValue const& framebuffer);
 
     /// @}
@@ -496,7 +454,6 @@ public:
     /// Return command deescriptors for commands supported by the active
     /// render delegate.
     ///
-    USDIMAGINGGL_API
     pxr::HdCommandDescriptors GetRendererCommandDescriptors() const;
 
     /// Invokes command on the active render delegate. If successful, returns
@@ -504,7 +461,6 @@ public:
     /// succeeed if it is not among those returned by
     /// GetRendererCommandDescriptors() for the same active render delegate.
     ///
-    USDIMAGINGGL_API
     bool InvokeRendererCommand(const pxr::TfToken& command,
                                const pxr::HdCommandArgs& args = pxr::HdCommandArgs()) const;
 
@@ -514,35 +470,29 @@ public:
     // ---------------------------------------------------------------------
 
     /// Query the renderer as to whether it supports pausing and resuming.
-    USDIMAGINGGL_API
     bool IsPauseRendererSupported() const;
 
     /// Pause the renderer.
     ///
     /// Returns \c true if successful.
-    USDIMAGINGGL_API
     bool PauseRenderer();
 
     /// Resume the renderer.
     ///
     /// Returns \c true if successful.
-    USDIMAGINGGL_API
     bool ResumeRenderer();
 
     /// Query the renderer as to whether it supports stopping and restarting.
-    USDIMAGINGGL_API
     bool IsStopRendererSupported() const;
 
     /// Stop the renderer.
     ///
     /// Returns \c true if successful.
-    USDIMAGINGGL_API
     bool StopRenderer();
 
     /// Restart the renderer.
     ///
     /// Returns \c true if successful.
-    USDIMAGINGGL_API
     bool RestartRenderer();
 
     /// @}
@@ -566,7 +516,6 @@ public:
     ///    rec709g22:
     ///      !<View> {name: studio, colorspace: linear, looks: studio_65_lg2}
     ///
-    USDIMAGINGGL_API
     void SetColorCorrectionSettings(pxr::TfToken const& ccType,
                                     pxr::TfToken const& ocioDisplay = {},
                                     pxr::TfToken const& ocioView = {},
@@ -576,7 +525,6 @@ public:
     /// @}
 
     /// Returns true if the platform is color correction capable.
-    USDIMAGINGGL_API
     static bool IsColorCorrectionCapable();
 
     // ---------------------------------------------------------------------
@@ -589,7 +537,6 @@ public:
     /// The contents of the dictionary will depend on the current render
     /// delegate.
     ///
-    USDIMAGINGGL_API
     pxr::VtDictionary GetRenderStats() const;
 
     /// @}
@@ -601,7 +548,6 @@ public:
 
     /// Returns the HGI interface.
     ///
-    USDIMAGINGGL_API
     pxr::Hgi* GetHgi();
 
     /// @}
@@ -617,7 +563,6 @@ public:
     ///
     /// A return value of true indicates that the scene has changed and the
     /// render should be updated.
-    USDIMAGINGGL_API
     bool PollForAsynchronousUpdates() const;
 
     /// @}
@@ -628,77 +573,52 @@ protected:
 
     /// Returns the render index of the engine, if any.  This is only used for
     /// whitebox testing.
-    USDIMAGINGGL_API
     pxr::HdRenderIndex* _GetRenderIndex() const;
 
-    USDIMAGINGGL_API
     void _Execute(const UsdImagingGLRenderParams& params, pxr::HdTaskSharedPtrVector tasks);
 
-    USDIMAGINGGL_API
     bool _CanPrepare(const pxr::UsdPrim& root);
-    USDIMAGINGGL_API
+
     void _PreSetTime(const UsdImagingGLRenderParams& params);
-    USDIMAGINGGL_API
+
     void _PostSetTime(const UsdImagingGLRenderParams& params);
 
-    USDIMAGINGGL_API
     void _PrepareRender(const UsdImagingGLRenderParams& params);
 
-    USDIMAGINGGL_API
     void _SetActiveRenderSettingsPrimFromStageMetadata(pxr::UsdStageWeakPtr stage);
 
-    USDIMAGINGGL_API
     void _SetSceneGlobalsCurrentFrame(pxr::UsdTimeCode const& time);
 
-    USDIMAGINGGL_API
     void _UpdateDomeLightCameraVisibility();
 
     using BBoxVector = std::vector<pxr::GfBBox3d>;
 
-    USDIMAGINGGL_API
     void _SetBBoxParams(const BBoxVector& bboxes, const pxr::GfVec4f& bboxLineColor, float bboxLineDashSize);
 
     // Create a hydra collection given root paths and render params.
     // Returns true if the collection was updated.
-    USDIMAGINGGL_API
     static bool _UpdateHydraCollection(pxr::HdRprimCollection* collection,
                                        pxr::SdfPathVector const& roots,
                                        UsdImagingGLRenderParams const& params);
-    USDIMAGINGGL_API
+
     static pxr::HdxRenderTaskParams _MakeHydraUsdImagingGLRenderParams(UsdImagingGLRenderParams const& params);
-    USDIMAGINGGL_API
+
     static void _ComputeRenderTags(UsdImagingGLRenderParams const& params, pxr::TfTokenVector* renderTags);
 
-    USDIMAGINGGL_API
     void _InitializeHgiIfNecessary();
 
-    USDIMAGINGGL_API
     void _SetRenderDelegateAndRestoreState(pxr::HdPluginRenderDelegateUniqueHandle&&);
 
-    USDIMAGINGGL_API
     void _SetRenderDelegate(pxr::HdPluginRenderDelegateUniqueHandle&&);
 
-    USDIMAGINGGL_API
     pxr::SdfPath _ComputeControllerPath(const pxr::HdPluginRenderDelegateUniqueHandle&);
 
-    USDIMAGINGGL_API
     static pxr::TfToken _GetDefaultRendererPluginId();
 
-    /// Get a direct pointer to the scene delegate.
-    /// \deprecated Existing instances of this call will be replaced with new
-    ///             APIs on this class, to support multiplexing between the
-    ///             scene delegate and scene index. This API is scheduled for
-    ///             deletion.
-    USDIMAGINGGL_API
-    pxr::UsdImagingDelegate* _GetSceneDelegate() const;
-
-    USDIMAGINGGL_API
     pxr::HdEngine* _GetHdEngine();
 
-    USDIMAGINGGL_API
     pxr::HdxTaskController* _GetTaskController() const;
 
-    USDIMAGINGGL_API
     pxr::HdSelectionSharedPtr _GetSelection() const;
 
 protected:
