@@ -11,7 +11,7 @@
 
 #include "renderParams.h"
 #include "rendererSettings.h"
-#include "pxr/usdImaging/sim/physxEngine.h"
+#include "physxEngine.h"
 
 #include "pxr/imaging/cameraUtil/conformWindow.h"
 
@@ -645,7 +645,7 @@ protected:
     void _PrepareRender(const UsdImagingGLRenderParams& params);
 
     USDIMAGINGGL_API
-    void _SetActiveRenderSettingsPrimFromStageMetadata(UsdStageWeakPtr stage);
+    void _SetActiveRenderSettingsPrimFromStageMetadata(pxr::UsdStageWeakPtr stage);
 
     USDIMAGINGGL_API
     void _SetSceneGlobalsCurrentFrame(pxr::UsdTimeCode const& time);

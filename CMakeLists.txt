@@ -67,9 +67,13 @@ add_dependencies(usdtweak stamp)
 
 add_subdirectory(src)
 
+set(FABRIC_SIM_PATH $ENV{HOME}/Desktop/FabricSimInstall)
+set(FABRIC_SIM_INCLUDE_DIRS ${FABRIC_SIM_PATH}/include)
+set(FABRIC_SIM_LIBS ${FABRIC_SIM_PATH}/lib/libfabric_sim.dylib)
+
 target_compile_definitions(usdtweak PRIVATE NOMINMAX)
-target_link_libraries(usdtweak glfw resources ${OPENGL_gl_LIBRARY} ${PXR_LIBRARIES} ${MATERIALX_LIBRARIES} $<$<CXX_COMPILER_ID:MSVC>:Shlwapi.lib>)
-target_include_directories(usdtweak PUBLIC ${OPENGL_INCLUDE_DIR} ${PXR_INCLUDE_DIRS})
+target_link_libraries(usdtweak glfw resources ${OPENGL_gl_LIBRARY} ${FABRIC_SIM_LIBS} ${PXR_LIBRARIES} ${MATERIALX_LIBRARIES} $<$<CXX_COMPILER_ID:MSVC>:Shlwapi.lib>)
+target_include_directories(usdtweak PUBLIC ${OPENGL_INCLUDE_DIR} ${PXR_INCLUDE_DIRS} ${FABRIC_SIM_INCLUDE_DIRS})
 
 set(USE_PYTHON3 OFF CACHE BOOL "Compile with the Python3 target")
 if (USE_PYTHON3)

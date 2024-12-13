@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <pxr/usdImaging/usdAppUtils/frameRecorder.h>
+#include "runtime/frameRecorder.h"
 
 #include "ModalDialogs.h"
 
@@ -14,17 +14,17 @@ PXR_NAMESPACE_USING_DIRECTIVE
 /// we can't select the renderer, we can't change options like loading materials or not, change the file format ...
 /// Also there is not ui for selecting the output directory, and no progress bar.
 ///
-/// For all of those desirable features we need to extract the code from UsdAppUtilsFrameRecorder into another frame recorder.
+/// For all of those desirable features we need to extract the code from UsdAppUtilsFrameRecorder into another frame
+/// recorder.
 ///
 struct PlayblastModalDialog : public ModalDialog {
-
     PlayblastModalDialog(UsdStagePtr stage);
     ~PlayblastModalDialog() override {}
 
     void Draw() override;
     const char *DialogId() const override { return "Playblast"; }
 
-    UsdAppUtilsFrameRecorder _recorder;
+    runtime::UsdAppUtilsFrameRecorder _recorder;
     UsdStagePtr _stage;
     SdfPath _cameraPath;
     SdfPathVector _stageCameras;
