@@ -26,6 +26,7 @@ target_sources(usdtweak PRIVATE
 
 target_include_directories(usdtweak PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_subdirectory(runtime)
 add_subdirectory(commands)
 add_subdirectory(3rdparty)
 add_subdirectory(resources)

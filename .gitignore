@@ -1,1 +1,9 @@
 /build*
+.idea
+cmake-build-debug
+cmake-build-release
+src/Stamp.*
+src/resources/GlslCode.h
+src/resources/glsl/GridFrag.cpp
+src/resources/glsl/GridVert.cpp
+xcode
