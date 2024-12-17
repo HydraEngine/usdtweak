@@ -78,16 +78,9 @@ Viewport::~Viewport() {
     }
     // Delete renderers
     _drawTarget->Bind();
-    for (auto &renderer : _renderers) {
-        // Warning, InvalidateBuffers might be defered ... :S to check
-        // removed in 20.11: renderer.second->InvalidateBuffers();
-        if (renderer.second) {
-            delete renderer.second;
-            renderer.second = nullptr;
-        }
-    }
+    _renderer = nullptr;
+    _renderStage = nullptr;
     _drawTarget->Unbind();
-    _renderers.clear();
 }
 
 static void DrawOpenedStages() {
@@ -549,22 +542,18 @@ void Viewport::SetCurrentTimeCode(const UsdTimeCode &tc) { _imagingSettings.fram
 void Viewport::Update() {
     if (GetCurrentStage()) {
         bool firstTimeStageLoaded = false;
-        auto whichRenderer = _renderers.find(GetCurrentStage()); /// We expect a very limited number of opened stages
-        if (whichRenderer == _renderers.end()) {
+        if (_renderStage != GetCurrentStage()) {
             firstTimeStageLoaded = true;
             SdfPathVector excludedPaths;
-            _renderer = new runtime::RuntimeEngine(GetCurrentStage()->GetPseudoRoot().GetPath(), excludedPaths);
-            _renderers[GetCurrentStage()] = _renderer;
+
+            // must clear first to release physics engine
+            _renderer = nullptr;
+            _renderer = std::make_unique<runtime::RuntimeEngine>(GetCurrentStage()->GetPseudoRoot().GetPath(), excludedPaths);
+            _renderStage = GetCurrentStage();
+
             _cameraManipulator.SetZIsUp(UsdGeomGetStageUpAxis(GetCurrentStage()) == "Z");
             _grid.SetZIsUp(UsdGeomGetStageUpAxis(GetCurrentStage()) == "Z");
             InitializeRendererAov(*_renderer);
-        } else if (whichRenderer->second != _renderer) {
-            _renderer = whichRenderer->second;
-            _cameraManipulator.SetZIsUp(UsdGeomGetStageUpAxis(GetCurrentStage()) == "Z");
-            // TODO: should reset the camera otherwise, depending on the position of the camera, the transform is incorrect
-            _grid.SetZIsUp(UsdGeomGetStageUpAxis(GetCurrentStage()) == "Z");
-            // TODO: the selection is also different per stage
-            //_selection =
         }
 
         // Update cameras state, this will assign the user selected camera for the current stage at

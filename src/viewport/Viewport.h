@@ -159,8 +159,8 @@ class Viewport final {
 
     // Renderer
     GLuint _textureId = 0;
-    std::map<UsdStageRefPtr, runtime::RuntimeEngine *> _renderers;
-    runtime::RuntimeEngine *_renderer = nullptr;
+    UsdStageRefPtr _renderStage;
+    std::unique_ptr<runtime::RuntimeEngine> _renderer;
     ImagingSettings _imagingSettings;
     GlfDrawTargetRefPtr _drawTarget;
 
