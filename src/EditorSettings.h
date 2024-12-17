@@ -31,6 +31,7 @@ struct EditorSettings {
     bool _showUsdConnectionEditor = false;
     bool _showHydraBrowser = false;
     bool _syncPhysics = false;
+    bool _unSyncPhysics = false;
     int _mainWindowWidth;
     int _mainWindowHeight;
 

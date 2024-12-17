@@ -344,6 +344,10 @@ void RuntimeEngine::Render(const UsdPrim &root, const UsdImagingGLRenderParams &
 
 void RuntimeEngine::Update(float dt) {
     _simulationEngine->UpdateAll(dt);
+    FlushDirties();
+}
+
+void RuntimeEngine::FlushDirties() {
     _fabricSceneIndex->FlushDirties();
 }
 

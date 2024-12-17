@@ -817,8 +817,9 @@ void Editor::DrawMainMenuBar() {
             ImGui::MenuItem(LauncherBarWindowTitle, nullptr, &_settings._showLauncherBar);
             ImGui::EndMenu();
         }
-        if (ImGui::BeginMenu("Play")) {
-            ImGui::MenuItem("Play Physics", nullptr, &_settings._syncPhysics);
+        if (ImGui::BeginMenu("Physics")) {
+            ImGui::MenuItem("Start Physics", nullptr, &_settings._syncPhysics);
+            ImGui::MenuItem("Reset", nullptr, &_settings._unSyncPhysics);
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Help")) {
@@ -1046,6 +1047,11 @@ void Editor::Draw() {
     if (_settings._syncPhysics) {
         GetViewport().SyncFabric();
         _settings._syncPhysics = false;
+    }
+    if (_settings._unSyncPhysics) {
+        GetViewport().UnSyncFabric();
+        GetViewport().FlushDirties();
+        _settings._unSyncPhysics = false;
     }
     
     DrawCurrentModal();

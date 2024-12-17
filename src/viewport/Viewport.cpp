@@ -203,6 +203,9 @@ void Viewport::DrawToolBar(const ImVec2 widgetPosition) {
     if (ImGui::IsItemHovered() && GImGui->HoveredIdTimer > 1) {
         ImGui::SetTooltip("Cameras");
     }
+    ImGui::SameLine();
+    ImGui::Checkbox(ICON_FA_ROBOT, &_imagingSettings.play);
+
     ImGui::PopStyleColor(2);
 }
 
@@ -590,7 +593,7 @@ void Viewport::Update() {
         _scaleManipulator.OnSelectionChange(*this);
     }
 
-    if (_renderer) {
+    if (_renderer && _imagingSettings.play) {
         _renderer->Update(1.0 / 60);
     }
 }
@@ -601,6 +604,10 @@ void Viewport::SyncFabric() {
 
 void Viewport::UnSyncFabric() {
     _renderer->UnSyncFabric();
+}
+
+void Viewport::FlushDirties() {
+    _renderer->FlushDirties();
 }
 
 bool Viewport::TestIntersection(GfVec2d clickedPoint, SdfPath &outHitPrimPath, SdfPath &outHitInstancerPath,

@@ -24,6 +24,9 @@ struct ImagingSettings : runtime::UsdImagingGLRenderParams {
     bool showUI;
     bool showViewportMenu;
 
+    // Physics
+    bool play{true};
+
 private:
     GlfSimpleLightVector _lights;
 };

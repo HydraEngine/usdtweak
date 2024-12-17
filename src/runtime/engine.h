@@ -142,6 +142,8 @@ public:
     // ---------------------------------------------------------------------
     void Update(float dt);
 
+    void FlushDirties();
+
     void SyncFabric();
 
     void UnSyncFabric();
