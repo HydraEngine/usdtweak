@@ -1,4 +1,11 @@
+//  Copyright (c) 2024 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 #pragma once
+
 #include "runtime/engine.h"
 #include "runtime/renderParams.h"
 #include <pxr/imaging/glf/simpleLight.h>
@@ -23,9 +30,6 @@ struct ImagingSettings : runtime::UsdImagingGLRenderParams {
     bool showGizmos;
     bool showUI;
     bool showViewportMenu;
-
-    // Physics
-    bool play{true};
 
 private:
     GlfSimpleLightVector _lights;

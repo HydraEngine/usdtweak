@@ -32,6 +32,7 @@
 #include "pxr/imaging/hdx/pickTask.h"
 #include "pxr/imaging/hdx/taskController.h"
 #include "pxr/imaging/hdx/tokens.h"
+#include "pxr/imaging/hdx/debugDrawTask.h"
 
 #include "pxr/imaging/hgi/hgi.h"
 #include "pxr/imaging/hgi/tokens.h"
@@ -43,6 +44,8 @@
 
 #include "pxr/base/gf/matrix4d.h"
 #include "pxr/base/gf/vec3d.h"
+
+#include "fabric_sim/tokens.h"
 
 #include <string>
 
@@ -345,15 +348,20 @@ void RuntimeEngine::Render(const UsdPrim &root, const UsdImagingGLRenderParams &
 void RuntimeEngine::Update(float dt) {
     _simulationEngine->UpdateAll(dt);
     FlushDirties();
+
+    auto data = _simulationEngine->GetDebugDrawData();
+    _taskController->SetDebugDrawParams(data.points, data.lines, data.triangles);
 }
 
-void RuntimeEngine::FlushDirties() {
-    _fabricSceneIndex->FlushDirties();
-}
+void RuntimeEngine::FlushDirties() { _fabricSceneIndex->FlushDirties(); }
 
 void RuntimeEngine::SyncFabric() { _simulationEngine->Sync(); }
 
 void RuntimeEngine::UnSyncFabric() { _simulationEngine->UnSync(); }
+
+void RuntimeEngine::SyncSettings(PhysicsSettings& settings) {
+    settings.Sync(*_simulationEngine);
+}
 
 bool RuntimeEngine::IsConverged() const {
     if (ARCH_UNLIKELY(!_renderDelegate)) {

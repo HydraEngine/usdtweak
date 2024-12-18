@@ -1,3 +1,9 @@
+//  Copyright (c) 2024 Feng Yang
+//
+//  I am making my contributions/submissions to this project solely in my
+//  personal capacity and am not conveying any rights to any intellectual
+//  property of any third parties.
+
 #include <iostream>
 #include <map>
 #include "ImagingSettings.h"
@@ -5,7 +11,6 @@
 #include "Gui.h"
 #include "ImGuiHelpers.h"
 #include "Constants.h"
-
 
 template <typename HasPositionT> inline void CopyCameraPosition(const GfCamera &camera, HasPositionT &object) {
     GfVec3d camPos = camera.GetFrustum().GetPosition();

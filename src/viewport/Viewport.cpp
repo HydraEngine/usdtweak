@@ -204,7 +204,14 @@ void Viewport::DrawToolBar(const ImVec2 widgetPosition) {
         ImGui::SetTooltip("Cameras");
     }
     ImGui::SameLine();
-    ImGui::Checkbox(ICON_FA_ROBOT, &_imagingSettings.play);
+    ImGui::Button(ICON_FA_ROBOT);
+    if (_renderer && ImGui::BeginPopupContextItem(nullptr, flags)) {
+        _physicsSettings.DrawSettings();
+        ImGui::EndPopup();
+    }
+    if (ImGui::IsItemHovered() && GImGui->HoveredIdTimer > 1) {
+        ImGui::SetTooltip("Physics settings");
+    }
 
     ImGui::PopStyleColor(2);
 }
@@ -593,8 +600,12 @@ void Viewport::Update() {
         _scaleManipulator.OnSelectionChange(*this);
     }
 
-    if (_renderer && _imagingSettings.play) {
-        _renderer->Update(1.0 / 60);
+
+    if (_renderer) {
+        _renderer->SyncSettings(_physicsSettings);
+        if (_physicsSettings.update) {
+            _renderer->Update(1.0 / 60);
+        }
     }
 }
 

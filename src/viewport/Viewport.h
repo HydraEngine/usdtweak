@@ -19,6 +19,7 @@
 #include <pxr/imaging/glf/drawTarget.h>
 #include <pxr/usd/usd/stage.h>
 #include "runtime/engine.h"
+#include "physicsSettings.h"
 
 #include <ImagingSettings.h>
 
@@ -163,6 +164,7 @@ class Viewport final {
     UsdStageRefPtr _renderStage;
     std::unique_ptr<runtime::RuntimeEngine> _renderer;
     ImagingSettings _imagingSettings;
+    PhysicsSettings _physicsSettings;
     GlfDrawTargetRefPtr _drawTarget;
 
 };

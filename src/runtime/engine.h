@@ -11,7 +11,8 @@
 
 #include "renderParams.h"
 #include "rendererSettings.h"
-#include "physxEngine.h"
+#include "physicsSettings.h"
+#include "fabric_sim/physxEngine.h"
 
 #include "pxr/imaging/cameraUtil/conformWindow.h"
 
@@ -147,6 +148,8 @@ public:
     void SyncFabric();
 
     void UnSyncFabric();
+
+    void SyncSettings(PhysicsSettings& settings);
 
     /// Support for batched drawing
     void PrepareBatch(const pxr::UsdPrim& root, const UsdImagingGLRenderParams& params);
