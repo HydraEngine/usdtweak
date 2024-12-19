@@ -26,14 +26,14 @@ struct PhysicsSettings {
     bool friction_impulse{false};
     bool actor_axes{false};
     bool collision_aabbs{false};
-    bool collision_shapes{false};
+    bool collision_shapes{true};
     bool collision_axes{false};
     bool collision_compounds{false};
     bool collision_face_normals{false};
     bool collision_edges{false};
     bool collision_static{false};
     bool collision_dynamic{false};
-    bool joint_local_frames{false};
+    bool joint_local_frames{true};
     bool joint_limits{false};
     bool cull_box{false};
     bool mbp_regions{false};
